@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ country.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ country.name }}</h1>
+<p>{{ country.description }}</p>
+
+<h2>Posts about {{ country.name }}</h2>
+{% for post in page_obj %}
+    <div class="post">
+        <h3><a href="{% url 'posts:post_detail' post.id %}">{{ post.title }}</a></h3>
+        <p>by {{ post.author.username }}</p>
+        <p>{{ post.content|truncatewords:20 }}</p>
+    </div>
+{% endfor %}
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+</div>
+{% endblock %}

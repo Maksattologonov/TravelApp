@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Post List{% endblock %}
+
+{% block content %}
+<h1>Post Feed</h1>
+<div class="post-list">
+    {% for post in page_obj %}
+        <div class="post-card">
+            <h2><a href="{% url 'posts:post_detail' post.id %}">{{ post.title }}</a></h2>
+            <p><em>by {{ post.author.username }} in {{ post.country.name }}</em></p>
+            <p>{{ post.content|truncatewords:30 }}</p>
+            <button onclick="window.location.href='{% url 'posts:post_detail' post.id %}'">Read More</button>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+</div>
+{% endblock %}

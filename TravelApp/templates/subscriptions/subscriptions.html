@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}My Subscriptions{% endblock %}
+
+{% block content %}
+<h1>My Subscriptions</h1>
+
+<h2>Users</h2>
+<ul>
+    {% for subscription in user.subscriptions.all %}
+        <li><a href="{% url 'users:user_detail' subscription.subscribed_to.id %}">{{ subscription.subscribed_to.username }}</a></li>
+    {% endfor %}
+</ul>
+
+<h2>Countries</h2>
+<ul>
+    {% for subscription in user.countrysubscription_set.all %}
+        <li><a href="{% url 'countries:country_detail' subscription.country.id %}">{{ subscription.country.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<h2>Tags</h2>
+<ul>
+    {% for subscription in user.tagsubscription_set.all %}
+        <li>{{ subscription.tag.name }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
